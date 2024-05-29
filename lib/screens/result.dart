@@ -6,7 +6,12 @@ class Result extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: AppBar(
+        title: Text("result"),
+      ),
+      body: Container(
+        child: Text("result"),
+      ),
     );
   }
 }

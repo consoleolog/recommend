@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:recommend/screens/hashtag.dart';
 class Setting extends StatefulWidget {
   Setting({super.key});
 
@@ -80,7 +83,12 @@ class _SettingState extends State<Setting> {
                icon: FaIcon(FontAwesomeIcons.userGroup)
              ),
            ),
-           ElevatedButton(onPressed: ()=>sendData, child: Text("submit"),)
+           ElevatedButton(onPressed: (){
+             sendData();
+             Navigator.push(context,
+               CupertinoPageRoute(builder: (context)=>Hashtag())
+             );
+            }, child: Text("submit"),)
          ],
        ),
     );
