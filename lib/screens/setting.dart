@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 class Setting extends StatefulWidget {
   Setting({super.key});
 
@@ -12,7 +13,40 @@ class _SettingState extends State<Setting> {
   var username;
   var followerCount;
   var followingCount;
-
+  setUsername(text){
+    setState(() {
+      username=text;
+    });
+  }
+  setFollower(text){
+    setState(() {
+      followerCount=text;
+    });
+  }
+  setFollowing(text){
+    setState(() {
+      followingCount=text;
+    });
+  }
+  sendData() async {
+    try{
+      var response = await http.post(Uri.parse(""),
+          headers: {},
+          body:jsonEncode({
+            'username':username,
+            'following':followingCount,
+            'follower':followerCount
+          })
+      );
+      if (response.statusCode!=200){
+        print("실패");
+      } else if (response.statusCode==200){
+        print("전송 성공");
+      }
+    }catch(error){
+      print("데이터 전송 실패");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,6 +54,7 @@ class _SettingState extends State<Setting> {
        child: Column(
          children: [
            TextField(
+             onChanged: (c)=>setUsername(c),
              decoration: InputDecoration(
                hintText: 'username',
                icon: FaIcon(FontAwesomeIcons.circleUser),
@@ -32,18 +67,20 @@ class _SettingState extends State<Setting> {
              ),
            ),
            TextField(
+             onChanged: (c)=>setFollowing(c),
              decoration: InputDecoration(
                hintText: 'following',
                icon: FaIcon(FontAwesomeIcons.userPlus)
              ),
            ),
            TextField(
+             onChanged: (c)=>setFollower(c),
              decoration: InputDecoration(
                hintText: 'follower',
                icon: FaIcon(FontAwesomeIcons.userGroup)
              ),
            ),
-           ElevatedButton(onPressed: (){}, child: Text("submit"),)
+           ElevatedButton(onPressed: ()=>sendData, child: Text("submit"),)
          ],
        ),
     );
